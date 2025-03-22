@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "507a65cf-b3db-4117-8eb4-2606790e685e",
+		"name": "Bids",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41727330"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/bids/start/container1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/bids/start/container1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"start",
+						"container1"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'http://localhost:8080/bids/start/container1' \\\r\n  -H 'accept: */*' \\\r\n  -d ''"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/bids/offer/single?amount=10&limit=200&newOwner=milo",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 0,\r\n    \"owner1\": null,\r\n    \"owner2\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bids/offer/single?amount=10&limit=200&newOwner=milo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"offer",
+						"single"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "10"
+						},
+						{
+							"key": "limit",
+							"value": "200"
+						},
+						{
+							"key": "newOwner",
+							"value": "milo"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/bids/offer/single?amount=10&limit=200&newOwner=milo' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 0,\r\n    \"owner1\": null,\r\n    \"owner2\": null\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/bids/offer/single?amount=200&limit=500&newOwner=santiago",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 10,\r\n    \"owner1\": \"milo\",\r\n    \"owner2\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bids/offer/single?amount=200&limit=500&newOwner=santiago",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"offer",
+						"single"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "200"
+						},
+						{
+							"key": "limit",
+							"value": "500"
+						},
+						{
+							"key": "newOwner",
+							"value": "santiago"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/bids/offer/single?amount=200&limit=500&newOwner=santiago' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 10,\r\n    \"owner1\": \"milo\",\r\n    \"owner2\": null\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/bids/offer/single?amount=5&limit=100&newOwner=sebastian",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 210,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bids/offer/single?amount=5&limit=100&newOwner=sebastian",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"offer",
+						"single"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "5"
+						},
+						{
+							"key": "limit",
+							"value": "100"
+						},
+						{
+							"key": "newOwner",
+							"value": "sebastian"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/bids/offer/single?amount=5&limit=100&newOwner=sebastian' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 210,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": null\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 210,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"offer",
+						"pairs"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "200"
+						},
+						{
+							"key": "limit1",
+							"value": "300"
+						},
+						{
+							"key": "limit2",
+							"value": "300"
+						},
+						{
+							"key": "newOwner1",
+							"value": "santiago"
+						},
+						{
+							"key": "newOwner2",
+							"value": "juan"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 210,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": null\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 410,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": \"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bids",
+						"offer",
+						"pairs"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "200"
+						},
+						{
+							"key": "limit1",
+							"value": "300"
+						},
+						{
+							"key": "limit2",
+							"value": "300"
+						},
+						{
+							"key": "newOwner1",
+							"value": "santiago"
+						},
+						{
+							"key": "newOwner2",
+							"value": "juan"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'http://localhost:8080/bids/offer/pairs?amount=200&limit1=300&limit2=300&newOwner1=santiago&newOwner2=juan' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"containerId\": \"container1\",\r\n    \"creation\": \"2025-03-22T11:09:23.7513622\",\r\n    \"amountOffered\": 410,\r\n    \"owner1\": \"santiago\",\r\n    \"owner2\": \"juan\"\r\n}'"
+			},
+			"response": []
+		}
+	]
+}
