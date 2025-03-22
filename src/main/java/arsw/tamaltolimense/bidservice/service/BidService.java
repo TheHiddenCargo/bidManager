@@ -11,9 +11,9 @@ public interface BidService {
 
     int getBet(Bid bid);
 
-    int offer(int amount, int limit, Bid bid, String newOwner) throws BidException;
+    Bid offer(int amount, int limit, Bid bid, String newOwner) throws BidException;
 
-    int offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException;
+    Bid offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException;
 
 
 

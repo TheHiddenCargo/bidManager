@@ -23,14 +23,24 @@ public class WebSocketBid {
         this.messagingTemplate = messagingTemplate;
     }
 
+    @MessageMapping("/start")
+    public void startBet(@Payload String bid) {
+        try{
+            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bid,
+                    bidService.startBet(bid));
+        }catch (BidException e) {
+            e.printStackTrace();
+        }
+    }
+
     @MessageMapping("/single/offer")
     public void makeOffer(@Payload int amount,@Payload int limit, @Payload Bid bid,@Payload String newOwner) {
         try{
-            int newValue = bidService.offer(amount,limit,bid,newOwner);
-            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid), newValue);
+            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid),
+                    bidService.offer(amount,limit,bid,newOwner));
         }catch (BidException e) {
             messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid),
-                    bidService.getBet(bid));
+                    bid);
         }
     }
 
@@ -38,11 +48,11 @@ public class WebSocketBid {
     public void makePairOffer(@Payload int amount,@Payload int limit1, @Payload int limit2,@Payload Bid bid
             ,@Payload String newOwner1,@Payload String newOwner2) {
         try{
-            int newValue = bidService.offerInPairs(amount,limit1,limit2,bid,newOwner1,newOwner2);
-            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid), newValue);
+            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid),
+                    bidService.offerInPairs(amount,limit1,limit2,bid,newOwner1,newOwner2));
         }catch (BidException e) {
             messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bidService.getContainerId(bid),
-                    bidService.getBet(bid));
+                    bid);
         }
     }
 

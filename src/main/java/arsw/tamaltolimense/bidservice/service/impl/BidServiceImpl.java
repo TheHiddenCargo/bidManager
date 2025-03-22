@@ -26,21 +26,21 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
-    public int offer(int amount, int limit, Bid bid,String newOwner) throws BidException{
+    public Bid offer(int amount, int limit, Bid bid,String newOwner) throws BidException{
         if(bid.getAmountOffered() + amount > limit) throw new BidException(BidException.EXCEED_LIMIT);
         if(amount <= 0) throw new BidException(BidException.ZERO_AMOUNT);
         bid.bet(newOwner,null,amount);
-        return bid.getAmountOffered();
+        return bid;
     }
 
     @Override
-    public int offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException {
+    public Bid offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException {
         if(bid.getAmountOffered() + amount > limit1 + limit2) throw new BidException(BidException.EXCEED_LIMIT);
         int split = Math.round((float) (amount + bid.getAmountOffered())/2);
         if(split > limit1 || split > limit2) throw new BidException(BidException.EXCEED_LIMIT);
         if(amount <= 0) throw new BidException(BidException.ZERO_AMOUNT);
         bid.bet(newOwner1,newOwner2,amount);
-        return bid.getAmountOffered();
+        return bid;
     }
 
 
