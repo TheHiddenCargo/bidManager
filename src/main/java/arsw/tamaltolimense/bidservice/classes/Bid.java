@@ -14,7 +14,6 @@ public class Bid{
     @Getter  private String owner1;
     @Getter  private String owner2;
 
-    private final Object lock = new Object();
 
 
     public Bid(String containerId) {
@@ -24,11 +23,10 @@ public class Bid{
     }
 
     public void bet(String owner1, String owner2, int amount) {
-        synchronized (lock) {
-            this.amountOffered += amount;
-            this.owner1 = owner1;
-            this.owner2 = owner2;
-        }
+        this.amountOffered += amount;
+        this.owner1 = owner1;
+        this.owner2 = owner2;
+
 
     }
 
