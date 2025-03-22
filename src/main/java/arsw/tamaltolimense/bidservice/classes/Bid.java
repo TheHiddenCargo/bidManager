@@ -7,12 +7,16 @@ import java.time.LocalDateTime;
 
 
 
+
 public class Bid{
     @Getter private final LocalDateTime creation;
     @Getter private final String containerId;
     @Getter private int amountOffered;
     @Getter  private String owner1;
     @Getter  private String owner2;
+    private final Object lock = new Object();
+
+
 
 
 
@@ -23,10 +27,11 @@ public class Bid{
     }
 
     public void bet(String owner1, String owner2, int amount) {
-        this.amountOffered += amount;
-        this.owner1 = owner1;
-        this.owner2 = owner2;
-
+        synchronized (lock) {
+            this.amountOffered += amount;
+            this.owner1 = owner1;
+            this.owner2 = owner2;
+        }
 
     }
 

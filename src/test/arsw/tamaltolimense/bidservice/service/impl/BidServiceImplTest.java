@@ -52,6 +52,8 @@ class BidServiceImplTest {
         // Verificar que la cantidad ofrecida sea la esperada
         assertEquals(200, bid.getAmountOffered());
 
+
+
     }
 
 
