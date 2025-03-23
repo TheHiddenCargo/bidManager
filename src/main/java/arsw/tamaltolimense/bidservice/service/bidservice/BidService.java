@@ -1,4 +1,4 @@
-package arsw.tamaltolimense.bidservice.service;
+package arsw.tamaltolimense.bidservice.service.bidservice;
 
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
@@ -14,12 +14,6 @@ public interface BidService {
      */
     Bid startBet(String containerId, int initialValue)throws BidException;
 
-    /**
-     * Get the bid's container id
-     * @param bid that you want to get the container id
-     * @return the container's id
-     */
-    String getContainerId(Bid bid);
 
     /**
      * Offer a new amount

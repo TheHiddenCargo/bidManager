@@ -1,8 +1,8 @@
-package arsw.tamaltolimense.bidservice.service.impl;
+package arsw.tamaltolimense.bidservice.service.bidservice.impl;
 
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
-import arsw.tamaltolimense.bidservice.service.BidService;
+import arsw.tamaltolimense.bidservice.service.bidservice.BidService;
 
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,6 @@ public class BidServiceImpl implements BidService {
         if(containerId == null || containerId.trim().isEmpty()) throw new BidException(BidException.NULL_VALUE);
         if(initialValue < 0) throw new BidException(BidException.NEGATIVE_VALUE);
         return new Bid(containerId,initialValue);
-    }
-
-    @Override
-    public String getContainerId(Bid bid) {
-        return bid.getContainerId();
     }
 
 

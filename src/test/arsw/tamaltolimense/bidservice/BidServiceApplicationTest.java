@@ -2,19 +2,24 @@ package arsw.tamaltolimense.bidservice;
 
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
-import arsw.tamaltolimense.bidservice.service.impl.BidServiceImpl;
+import arsw.tamaltolimense.bidservice.service.bidservice.impl.BidServiceImpl;
+import arsw.tamaltolimense.bidservice.service.notificationservice.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class BidServiceImplTest {
+class BidServiTest{
 
     @InjectMocks
     private BidServiceImpl bidService;
+
+    @InjectMocks
+    private NotificationService notificationService;
 
 
 
@@ -245,8 +250,42 @@ class BidServiceImplTest {
         }
     }
 
+    @Test
+    void testAddEmitter() {
+        String userNickName = "user1";
+        SseEmitter emitter = new SseEmitter();
+        notificationService.addEmitter(userNickName, emitter);
+        assertNotNull(notificationService.getEmitter(userNickName));
+    }
+
+    @Test
+    void testSendMessage() {
+        String userNickName = "user1";
+        SseEmitter emitter = new SseEmitter();
+        notificationService.addEmitter(userNickName, emitter);
+
+        assertDoesNotThrow(() -> NotificationService.sendMessage(userNickName, "Test message"));
 
 
+        emitter.complete();
+        try{
+            NotificationService.sendMessage(userNickName, "Another message");
+        }catch (IllegalStateException e){
+            assertEquals("ResponseBodyEmitter has already completed", e.getMessage());
+            notificationService.removeEmitter(userNickName);
+        }
 
+        assertNull(notificationService.getEmitter(userNickName));
+    }
+
+    @Test
+    void testRemoveEmitter() {
+        String userNickName = "user1";
+        SseEmitter emitter = new SseEmitter();
+        notificationService.addEmitter(userNickName, emitter);
+
+        notificationService.removeEmitter(userNickName);
+        assertNull(notificationService.getEmitter(userNickName));
+    }
 
 }

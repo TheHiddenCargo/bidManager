@@ -15,11 +15,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //Prefijo para recibir info enviada por el usuario
         config.enableSimpleBroker("/offered");
         //Prefijo para que el usuario pueda enviar info
-        config.setApplicationDestinationPrefixes("/bids/make");
+        config.setApplicationDestinationPrefixes("/offer");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/offers").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/containers/bids").
+                setAllowedOrigins("*");
+
     }
 }
