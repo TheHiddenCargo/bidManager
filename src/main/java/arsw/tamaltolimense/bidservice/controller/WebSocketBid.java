@@ -24,10 +24,10 @@ public class WebSocketBid {
     }
 
     @MessageMapping("/start")
-    public void startBet(@Payload String bid) {
+    public void startBet(@Payload String containerId, @Payload int initialValue) {
         try{
-            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + bid,
-                    bidService.startBet(bid));
+            messagingTemplate.convertAndSend(WebSocketBid.SIMPLE_BLOKER + containerId,
+                    bidService.startBet(containerId, initialValue));
         }catch (BidException e) {
             e.printStackTrace();
         }

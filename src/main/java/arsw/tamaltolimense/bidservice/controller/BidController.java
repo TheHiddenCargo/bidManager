@@ -18,10 +18,11 @@ public class BidController {
     @Autowired
     public BidController(BidService bidService) {this.bidService = bidService;}
 
-    @PostMapping("/start/{nickName}")
-    public ResponseEntity<Object> getUserInfo(@PathVariable("nickName") String nickName) {
+    @PostMapping("/start/{idContainer}")
+    public ResponseEntity<Object> getUserInfo(@PathVariable("idContainer") String container
+            ,@RequestParam("initialValue") int initialValue) {
         try{
-            return new ResponseEntity<>(bidService.startBet(nickName),HttpStatus.CREATED);
+            return new ResponseEntity<>(bidService.startBet(container,initialValue),HttpStatus.CREATED);
 
         }catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
