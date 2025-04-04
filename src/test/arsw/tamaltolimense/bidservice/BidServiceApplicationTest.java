@@ -2,8 +2,7 @@ package arsw.tamaltolimense.bidservice;
 
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
-import arsw.tamaltolimense.bidservice.service.bidservice.impl.BidServiceImpl;
-import arsw.tamaltolimense.bidservice.service.notificationservice.NotificationService;
+import arsw.tamaltolimense.bidservice.service.impl.BidServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,8 +17,7 @@ class BidServiTest{
     @InjectMocks
     private BidServiceImpl bidService;
 
-    @InjectMocks
-    private NotificationService notificationService;
+
 
 
 
@@ -31,7 +29,7 @@ class BidServiTest{
     @Test
     void shouldOffer(){
         try{
-            Bid currentBid = bidService.startBet("container1",100);
+            Bid currentBid = bidService.startBet("container1",100,500);
 
             bidService.offer(200,301,currentBid,"Juan");
             bidService.offer(5,305,currentBid,"Santiago");
@@ -47,7 +45,7 @@ class BidServiTest{
     @Test
     void shouldNotStartNull(){
         try{
-            bidService.startBet(null,500);
+            bidService.startBet(null,500,600);
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.NULL_VALUE, e.getMessage());
@@ -57,7 +55,7 @@ class BidServiTest{
     @Test
     void shouldNotStartEmpty() {
         try {
-            bidService.startBet("              ", 500);
+            bidService.startBet("              ", 500,1500);
             fail("Should have thrown exception");
         } catch (BidException e) {
             assertEquals(BidException.NULL_VALUE, e.getMessage());
@@ -67,7 +65,7 @@ class BidServiTest{
     @Test
     void shouldNotStartNegative() {
         try {
-            bidService.startBet("container", -45);
+            bidService.startBet("container", -45,50);
             fail("Should have thrown exception");
         } catch (BidException e) {
             assertEquals(BidException.NEGATIVE_VALUE, e.getMessage());
@@ -77,7 +75,7 @@ class BidServiTest{
     @Test
     void shouldNotExceedLimit(){
         try{
-            bidService.offer(100,150,new Bid("container",151),"milo");
+            bidService.offer(100,150,new Bid("container",151,600),"milo");
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.EXCEED_LIMIT, e.getMessage());
@@ -86,7 +84,7 @@ class BidServiTest{
     @Test
     void shouldNotOfferZero(){
         try{
-            bidService.offer(0,150,new Bid("container",150),"milo");
+            bidService.offer(0,150,new Bid("container",150,600),"milo");
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.ZERO_AMOUNT,e.getMessage());
@@ -96,7 +94,7 @@ class BidServiTest{
     @Test
     void shouldNotOfferNegative(){
         try{
-            bidService.offer(-45,150,new Bid("container",150),"milo");
+            bidService.offer(-45,150,new Bid("container",150,600),"milo");
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.ZERO_AMOUNT,e.getMessage());
@@ -106,7 +104,7 @@ class BidServiTest{
     @Test
     void ownerShouldNotBeNull(){
         try{
-            bidService.offer(5,150,new Bid("container",0),null);
+            bidService.offer(5,150,new Bid("container",0,400),null);
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.NULL_OWNER,e.getMessage());
@@ -116,7 +114,7 @@ class BidServiTest{
     @Test
     void ownerShouldNotBeEmpty(){
         try{
-            bidService.offer(5,150,new Bid("container",0),"  ");
+            bidService.offer(5,150,new Bid("container",0,400),"  ");
             fail("Should have thrown exception");
         }catch (BidException e){
             assertEquals(BidException.NULL_OWNER,e.getMessage());
@@ -126,7 +124,7 @@ class BidServiTest{
     @Test
     void shouldOfferInPairs(){
         try{
-            Bid currentBid = bidService.startBet("container1",100);
+            Bid currentBid = bidService.startBet("container1",100,400);
 
             bidService.offer(200,301,currentBid,"Juan");
             bidService.offer(5,305,currentBid,"Santiago");
@@ -145,7 +143,7 @@ class BidServiTest{
     @Test
     void shouldNotExceedPairLimit(){
         try{
-            bidService.offerInPairs(100,50,40,new Bid("container",0),
+            bidService.offerInPairs(100,50,40,new Bid("container",0,500),
                     "juan",
                     "milo");
             fail("Should have thrown exception");
@@ -157,7 +155,7 @@ class BidServiTest{
     @Test
     void shouldNotExceedOwner1(){
         try{
-            bidService.offerInPairs(200,50,500,new Bid("container",0),
+            bidService.offerInPairs(200,50,500,new Bid("container",0,700),
                     "juan",
                     "milo");
             fail("Should have thrown exception");
@@ -169,7 +167,7 @@ class BidServiTest{
     @Test
     void shouldNotExceedOwner2(){
         try{
-            bidService.offerInPairs(500,600,249,new Bid("container",0),
+            bidService.offerInPairs(500,600,249,new Bid("container",0,100),
                     "juan",
                     "milo");
             fail("Should have thrown exception");
@@ -181,7 +179,7 @@ class BidServiTest{
     @Test
     void shouldNotOfferZeroInPairs(){
         try{
-            bidService.offerInPairs(0,200,40,new Bid("container",0),
+            bidService.offerInPairs(0,200,40,new Bid("container",0,200),
                     "juan",
                     "milo");
             fail("Should have thrown exception");
@@ -193,7 +191,7 @@ class BidServiTest{
     @Test
     void shouldNotOfferNegativeInPairs(){
         try{
-            bidService.offerInPairs(-45,200,40,new Bid("container",0),
+            bidService.offerInPairs(-45,200,40,new Bid("container",0,100),
                     "juan",
                     "milo");
             fail("Should have thrown exception");
@@ -205,7 +203,7 @@ class BidServiTest{
     @Test
     void owner1ShouldNotBeNull(){
         try{
-            bidService.offerInPairs(4,200,40,new Bid("container",0),
+            bidService.offerInPairs(4,200,40,new Bid("container",0,100),
                     null,
                     "milo");
             fail("Should have thrown exception");
@@ -217,7 +215,7 @@ class BidServiTest{
     @Test
     void owner2ShouldNotBeNull(){
         try{
-            bidService.offerInPairs(4,200,40,new Bid("container",0),
+            bidService.offerInPairs(4,200,40,new Bid("container",0,100),
                     "m",
                     null);
             fail("Should have thrown exception");
@@ -229,7 +227,7 @@ class BidServiTest{
     @Test
     void owner1ShouldNotBeEmpty(){
         try{
-            bidService.offerInPairs(4,200,40,new Bid("container",0),
+            bidService.offerInPairs(4,200,40,new Bid("container",0,100),
                     "    ",
                     "milo");
             fail("Should have thrown exception");
@@ -241,7 +239,7 @@ class BidServiTest{
     @Test
     void owner2ShouldNotBeEmpty(){
         try{
-            bidService.offerInPairs(4,200,40,new Bid("container",0),
+            bidService.offerInPairs(4,200,40,new Bid("container",0,100),
                     "m",
                     "    ");
             fail("Should have thrown exception");
@@ -250,42 +248,6 @@ class BidServiTest{
         }
     }
 
-    @Test
-    void testAddEmitter() {
-        String userNickName = "user1";
-        SseEmitter emitter = new SseEmitter();
-        notificationService.addEmitter(userNickName, emitter);
-        assertNotNull(notificationService.getEmitter(userNickName));
-    }
 
-    @Test
-    void testSendMessage() {
-        String userNickName = "user1";
-        SseEmitter emitter = new SseEmitter();
-        notificationService.addEmitter(userNickName, emitter);
-
-        assertDoesNotThrow(() -> NotificationService.sendMessage(userNickName, "Test message"));
-
-
-        emitter.complete();
-        try{
-            NotificationService.sendMessage(userNickName, "Another message");
-        }catch (IllegalStateException e){
-            assertEquals("ResponseBodyEmitter has already completed", e.getMessage());
-            notificationService.removeEmitter(userNickName);
-        }
-
-        assertNull(notificationService.getEmitter(userNickName));
-    }
-
-    @Test
-    void testRemoveEmitter() {
-        String userNickName = "user1";
-        SseEmitter emitter = new SseEmitter();
-        notificationService.addEmitter(userNickName, emitter);
-
-        notificationService.removeEmitter(userNickName);
-        assertNull(notificationService.getEmitter(userNickName));
-    }
 
 }

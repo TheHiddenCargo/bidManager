@@ -1,7 +1,9 @@
-package arsw.tamaltolimense.bidservice.service.bidservice;
+package arsw.tamaltolimense.bidservice.service;
 
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
+
+import java.util.Map;
 
 public interface BidService {
 
@@ -9,10 +11,11 @@ public interface BidService {
      * Opens a bid
      * @param containerId, container's id that is bet on
      * @param initialValue, initial value of the bid
+     * @param realValue, real value of the container
      * @return Bid result
      * @throws BidException if container's id is null or initial value negative
      */
-    Bid startBet(String containerId, int initialValue)throws BidException;
+    Bid startBet(String containerId, int initialValue, int realValue)throws BidException;
 
 
     /**
@@ -40,6 +43,15 @@ public interface BidService {
      */
     Bid offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException;
 
+    /**
+     * Calculates if the owner wins or lose
+     * @param bid, current bid
+     * @return money that is going to win or lose the owners.
+     */
+    int calculate (Bid bid);
+
+
+    Bid convertToBid(Map<String,Object> data);
 
 
 

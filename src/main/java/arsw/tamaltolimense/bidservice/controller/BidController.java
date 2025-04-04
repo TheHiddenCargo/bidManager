@@ -1,14 +1,15 @@
 package arsw.tamaltolimense.bidservice.controller;
 
-
+import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
-import arsw.tamaltolimense.bidservice.service.bidservice.BidService;
-import arsw.tamaltolimense.bidservice.service.notificationservice.NotificationService;
+import arsw.tamaltolimense.bidservice.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("bids/")
@@ -16,27 +17,29 @@ public class BidController {
 
     private BidService bidService;
 
-    private NotificationService notificationService;
+
 
     @Autowired
-    public BidController(BidService bidService, NotificationService notificationService) {
+    public BidController(BidService bidService) {
         this.bidService = bidService;
-        this.notificationService = notificationService;
     }
 
-    @GetMapping("/notifications/{nickName}")
-    public void getNotifications(@PathVariable String nickName) {
-        notificationService.addEmitter(nickName, new SseEmitter());
-    }
 
     @PostMapping("/start")
-    public ResponseEntity<Object> getUserInfo(@RequestParam("idContainer") String container
-            ,@RequestParam("initialValue") int initialValue) {
+    public ResponseEntity<Object> createBid(@RequestBody Map<String,String> bidData) {
         try{
-            return new ResponseEntity<>(bidService.startBet(container,initialValue),HttpStatus.CREATED);
+            String container = bidData.get("container");
+            int initialValue = Integer.parseInt(bidData.get("initialValue"));
+            int realValue = Integer.parseInt(bidData.get("realValue"));
+            return new ResponseEntity<>(bidService.startBet(container,initialValue,realValue),HttpStatus.CREATED);
         }catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/calculate")
+    public ResponseEntity<Object> calculateBid(@RequestBody Bid bid) {
+        return new ResponseEntity<>(bidService.calculate(bid),HttpStatus.OK);
     }
 
 }

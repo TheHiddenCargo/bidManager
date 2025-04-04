@@ -9,6 +9,8 @@ public class BidException extends Exception{
     public static final String NULL_OWNER = "Owner cannot be null";
     public static final String NULL_OWNERS = "Owners cannot be null";
     public static final String EXCEED_OWNER = "The amount exceeds the limit of one of the owners";
+    public static final String CLOSE = "bid is closed";
+    public static final String GREATER_VALUE = "Real value must be greater than initial value";
     public BidException(String message) {
         super(message);
     }
