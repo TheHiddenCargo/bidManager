@@ -1,6 +1,15 @@
 spring:
   application:
     name: bidService
+server:
+  port: 8080  # Puerto donde se ejecutará tu aplicación
+  tomcat:
+    threads:
+      max: 250  # Número máximo de hilos para manejar solicitudes
+      min-spare: 20  # Hilos mínimos en espera
+    connection-timeout: 35000  # Timeout para conexiones (en ms, un poco más que el long polling)
+    max-connections: 8192  # Número máximo de conexiones simultáneas
+    accept-count: 100
 
 socket-server:
   origin: "*"
@@ -8,4 +17,16 @@ socket-server:
     host: 0.0.0.0
     port: 8085
 
+
+logging:
+  level:
+    org.apache.tomcat.util.threads: INFO  # Para monitorear hilos de Tomcat
+    org.springframework.web: INFO
+
+app:
+  polling:
+    timeout: 30000  # Timeout para long polling en ms (30 segundos)
+    check-interval: 1000  # Intervalo de verificación en ms (1 segundo)
+    max-queue-size: 100
+    cleanup-interval: 300000
 
