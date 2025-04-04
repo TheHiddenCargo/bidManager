@@ -3,86 +3,108 @@ package arsw.tamaltolimense.bidservice.service.impl;
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
 import arsw.tamaltolimense.bidservice.service.BidService;
-
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class BidServiceImpl implements BidService {
 
-
-    @Override
-    public Bid startBet(String containerId, int initialValue, int realValue) throws BidException {
-        if(containerId == null || containerId.trim().isEmpty()) throw new BidException(BidException.NULL_VALUE);
-        if(initialValue < 0) throw new BidException(BidException.NEGATIVE_VALUE);
-        if(realValue < 0) throw new BidException(BidException.NEGATIVE_VALUE);
-        if(realValue <= initialValue) throw new BidException(BidException.GREATER_VALUE);
-        return new Bid(containerId,initialValue,realValue);
-    }
-
-
-    @Override
-    public Bid offer(int amount, int limit, Bid bid,String newOwner) throws BidException{
-        if(isNull(newOwner)) throw new BidException(BidException.NULL_OWNER);
-        if(bid.getAmountOffered() + amount > limit) throw new BidException(BidException.EXCEED_LIMIT);
-        bid.bet(newOwner,null,amount);
-        return bid;
-    }
-
-    @Override
-    public Bid offerInPairs(int amount, int limit1, int limit2, Bid bid, String newOwner1, String newOwner2) throws BidException {
-        if(isNull(newOwner1) || isNull(newOwner2)) throw new BidException(BidException.NULL_OWNERS);
-        if(bid.getAmountOffered() + amount > limit1 + limit2) throw new BidException(BidException.EXCEED_LIMIT);
-        float split = (float) (amount + bid.getAmountOffered()) /2;
-        if(split > limit1 || split > limit2) throw new BidException(BidException.EXCEED_OWNER);
-        bid.bet(newOwner1,newOwner2,amount);
-        return bid;
-    }
-
-    @Override
-    public int calculate(Bid bid){
-        bid.close();
-        return bid.calculate();
-    }
-
-
+    // In-memory storage for active bids
+    private final Map<String, Bid> activeBids = new ConcurrentHashMap<>();
 
     /**
-     * Indicates if a string is null or empty
-     * @param value string that is going to be analyzed
-     * @return if the string is null or empty
+     * Start a new bid for a container
+     * @param containerId the container ID
+     * @param initialValue initial bid value
+     * @param realValue real value of the container
+     * @return the created Bid
+     * @throws BidException if a bid already exists for this container
      */
-    private boolean isNull(String value){
-        return value == null || value.trim().isEmpty();
+    @Override
+    public Bid startBet(String containerId, int initialValue, int realValue) throws BidException {
+        if (activeBids.containsKey(containerId)) {
+            throw new BidException("A bid already exists for container: " + containerId);
+        }
+
+        Bid newBid = new Bid(containerId, initialValue, realValue);
+        activeBids.put(containerId, newBid);
+        return newBid;
     }
 
+    /**
+     * Place a bid on a container
+     * @param containerId the container ID
+     * @param owner1 the primary owner
+     * @param owner2 the secondary owner (can be null)
+     * @param amount the bid amount
+     * @return the updated Bid
+     * @throws BidException if the bid is invalid or container not found
+     */
     @Override
-    public Bid convertToBid(Map<String,Object> data){
-        Bid bid;
-        try{
-            bid = (Bid) data;
-        }catch (ClassCastException e){
+    public Bid placeBid(String containerId, String owner1, String owner2, int amount) throws BidException {
+        Bid bid = activeBids.get(containerId);
+        if (bid == null) {
+            throw new BidException("No active bid found for container: " + containerId);
+        }
 
-            String containerId = (String) data.get("containerId");
-            int amountOffered = (int) (data.get("amountOffered"));
-            int realValue = (int) (data.get("realValue"));
+        if (!bid.isOpen()) {
+            throw new BidException("This bid is already closed");
+        }
 
-            bid = new Bid(containerId, amountOffered, realValue);
-
-            if(data.keySet().contains("owner1")) bid.setOwner1((String) data.get("owner1"));
-            if(data.keySet().contains("owner2")) bid.setOwner2((String) data.get("owner2"));
-
-            boolean isOpen = (boolean) data.get("open");
-
-            if(!isOpen) bid.close();
-
+        if (owner2 != null && !owner2.isEmpty()) {
+            bid.placeBid(owner1, owner2, amount);
+        } else {
+            bid.placeBid(owner1, amount);
         }
 
         return bid;
-
     }
 
+    /**
+     * Get a bid by container ID
+     * @param containerId the container ID
+     * @return the Bid or null if not found
+     */
+    @Override
+    public Bid getBidByContainer(String containerId) {
+        return activeBids.get(containerId);
+    }
 
+    /**
+     * Calculate the profit/loss for a bid
+     * @param bid the Bid to calculate
+     * @return the calculation result (profit/loss)
+     */
+    @Override
+    public int calculate(Bid bid) {
+        return bid.calculate();
+    }
 
+    /**
+     * Close a bid for a container
+     * @param containerId the container ID
+     * @return the closed Bid
+     * @throws BidException if the container is not found
+     */
+    @Override
+    public Bid closeBid(String containerId) throws BidException {
+        Bid bid = activeBids.get(containerId);
+        if (bid == null) {
+            throw new BidException("No active bid found for container: " + containerId);
+        }
+
+        bid.close();
+        return bid;
+    }
+
+    /**
+     * Get all active bids
+     * @return map of all active bids
+     */
+    @Override
+    public Map<String, Bid> getAllActiveBids() {
+        return activeBids;
+    }
 }
