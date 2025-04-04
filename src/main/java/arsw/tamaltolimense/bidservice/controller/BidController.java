@@ -23,24 +23,25 @@ public class BidController {
 
     /**
      * Start a new bid for a container
-     * @param requestParams map containing container ID, initialValue, and realValue
+     * This endpoint expects query parameters in the URL
      * @return the created bid
      */
     @PostMapping("/start")
-    public ResponseEntity<Object> createBid(@RequestParam Map<String, String> requestParams) {
-        try {
-            String container = requestParams.get("idContainer");
-            int initialValue = Integer.parseInt(requestParams.get("initialValue"));
-            // Default realValue to a higher value if not provided (to be overridden in frontend)
-            int realValue = requestParams.containsKey("realValue")
-                    ? Integer.parseInt(requestParams.get("realValue"))
-                    : initialValue * 2; // Default placeholder for real value
+    public ResponseEntity<Object> createBid(
+            @RequestParam("container") String containerId,
+            @RequestParam("initialValue") int initialValue,
+            @RequestParam(value = "realValue", required = false) Integer realValue) {
 
-            return new ResponseEntity<>(bidService.startBet(container, initialValue, realValue), HttpStatus.CREATED);
+        try {
+            // Si realValue no se proporciona, usar un valor predeterminado (por ejemplo, initialValue * 2)
+            int actualRealValue = (realValue != null) ? realValue : initialValue * 2;
+
+            return new ResponseEntity<>(
+                    bidService.startBet(containerId, initialValue, actualRealValue),
+                    HttpStatus.CREATED
+            );
         } catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (NumberFormatException e) {
-            return new ResponseEntity<>("Invalid number format: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -48,25 +49,21 @@ public class BidController {
 
     /**
      * Place a bid offer on a container
-     * @param requestParams map containing container ID, owner, and amount
+     * This endpoint expects query parameters in the URL
      * @return the updated bid
      */
     @PostMapping("/offer")
-    public ResponseEntity<Object> placeBidOffer(@RequestParam Map<String, String> requestParams) {
+    public ResponseEntity<Object> placeBidOffer(
+            @RequestParam("container") String containerId,
+            @RequestParam("owner") String owner,
+            @RequestParam("amount") int amount,
+            @RequestParam(value = "owner2", required = false) String owner2) {
+
         try {
-            String containerId = requestParams.get("container");
-            String owner = requestParams.get("owner");
-            int amount = Integer.parseInt(requestParams.get("amount"));
-
-            // Optional second owner
-            String owner2 = requestParams.getOrDefault("owner2", null);
-
             Bid updatedBid = bidService.placeBid(containerId, owner, owner2, amount);
             return new ResponseEntity<>(updatedBid, HttpStatus.OK);
         } catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (NumberFormatException e) {
-            return new ResponseEntity<>("Invalid number format: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
