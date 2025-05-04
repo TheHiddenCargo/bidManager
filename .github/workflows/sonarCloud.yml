@@ -1,26 +1,20 @@
-trigger:
-  branches:
-    include:
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
       - main
-      - develop
-  paths:
-    include:
-      - '**'
+  pull_request:
+    branches:
+      - main
 
-resources:
-  repositories:
-    - repository: SocketService
-      type: github
-      name: TheHiddenCargo/SocketService
-      endpoint: github-connection
-
-extends:
-  template: azure-pipelines-template.yml@socket
-  parameters:
-    projectName: 'bidManager'
-    servicePort: '8083'
-    environment: 'production'
-    additionalSteps:
-      - script: |
-          echo "Running Bids-specific build steps"
-        displayName: 'Bids Manager'
+jobs:
+  sonarcloud:
+    uses: TheHiddenCargo/SonarCloud-PipelineIntegration/.github/workflows/build.yml@v0.1.1
+    with:
+      java-version: '21'
+      branch-name: 'main'
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+      SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
