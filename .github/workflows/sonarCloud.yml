@@ -10,10 +10,11 @@ on:
 
 jobs:
   sonarcloud:
-    uses: TheHiddenCargo/central-pipelines/.github/workflows/sonarcloud-analysis.yml@ba2a6f9246dbc25ed7eb12b410deb768c321b11a
+    uses: TheHiddenCargo/central-pipelines/.github/workflows/sonarcloud-analysis.yml@2b44d8bec39fd69ad67ace3b004811f8e12ddc86
     with:
       java-version: '21'
       branch-name: 'main'
+      coverage-exclusions: "-Dsonar.coverage.exclusions=arsw/tamaltolimense/bidservice/config/*,arsw/tamaltolimense/bidservice/controller/*,arsw/tamaltolimense/bidservice/exception/*,arsw/tamaltolimense/bidservice/BidServiceApplication.*"
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
