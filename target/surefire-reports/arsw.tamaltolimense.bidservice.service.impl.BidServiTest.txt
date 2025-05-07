@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: arsw.tamaltolimense.bidservice.service.impl.BidServiTest
+-------------------------------------------------------------------------------
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.447 s -- in arsw.tamaltolimense.bidservice.service.impl.BidServiTest
