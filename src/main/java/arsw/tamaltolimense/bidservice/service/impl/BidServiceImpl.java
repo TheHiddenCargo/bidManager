@@ -35,7 +35,7 @@ public class BidServiceImpl implements BidService {
     }
 
     /**
-     * Place a bid on a container
+     * Place a bid on a containe
      * @param containerId the container ID
      * @param owner1 the primary owner
      * @param owner2 the secondary owner (can be null)
