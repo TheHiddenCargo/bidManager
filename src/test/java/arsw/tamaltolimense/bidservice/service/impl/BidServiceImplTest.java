@@ -1,5 +1,6 @@
 package arsw.tamaltolimense.bidservice.service.impl;
 
+
 import arsw.tamaltolimense.bidservice.classes.Bid;
 import arsw.tamaltolimense.bidservice.exception.BidException;
 
@@ -11,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class BidServiTest{
+class BidServiceTest{
 
     @InjectMocks
     private BidServiceImpl bidService;
