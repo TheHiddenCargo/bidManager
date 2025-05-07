@@ -10,7 +10,7 @@ on:
 
 jobs:
   sonarcloud:
-    uses: ccastano46/central-pipelines/.github/workflows/sonarcloud-analysis.yml@411dc5d6da69179cfd0413ffb92a1780d57c1c62
+    uses: TheHiddenCargo/central-pipelines/.github/workflows/sonarcloud-analysis.yml@411dc5d6da69179cfd0413ffb92a1780d57c1c62
     with:
       java-version: '21'
       branch-name: 'main'
