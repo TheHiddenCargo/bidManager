@@ -24,9 +24,10 @@ public class BidServiceImpl implements BidService {
      */
     @Override
     public Bid startBet(String containerId, int initialValue, int realValue) throws BidException {
-        if (activeBids.containsKey(containerId)) {
-            throw new BidException("A bid already exists for container: " + containerId);
-        }
+        if(containerId == null || containerId.trim().isEmpty()) throw new BidException(BidException.NULL_VALUE);
+        if(initialValue < 0 || realValue < 0) throw new BidException(BidException.NEGATIVE_VALUE);
+        if(realValue < initialValue) throw new BidException(BidException.GREATER_VALUE);
+        if (activeBids.containsKey(containerId)) throw new BidException(BidException.BID_EXISTS + containerId);
 
         Bid newBid = new Bid(containerId, initialValue, realValue);
         activeBids.put(containerId, newBid);
@@ -45,15 +46,17 @@ public class BidServiceImpl implements BidService {
     @Override
     public Bid placeBid(String containerId, String owner1, String owner2, int amount) throws BidException {
         Bid bid = activeBids.get(containerId);
-        if (bid == null) {
-            throw new BidException("No active bid found for container: " + containerId);
-        }
+        if (bid == null) throw new BidException(BidException.BID_NOT_EXISTS + containerId);
 
-        if (!bid.isOpen()) {
-            throw new BidException("This bid is already closed");
+
+        if (!bid.isOpen()) throw new BidException(BidException.CLOSE);
+
+        if(owner1 == null || owner1.trim().isEmpty()) {
+            throw new BidException(BidException.NULL_OWNER);
         }
 
         if (owner2 != null && !owner2.isEmpty()) {
+
             bid.placeBid(owner1, owner2, amount);
         } else {
             bid.placeBid(owner1, amount);
