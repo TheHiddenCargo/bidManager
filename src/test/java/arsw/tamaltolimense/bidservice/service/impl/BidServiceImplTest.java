@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class BidServiceTest{
+class BidServiceImplTest{
 
     @InjectMocks
     private BidServiceImpl bidService;
