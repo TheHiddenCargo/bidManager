@@ -11,7 +11,7 @@ on:
 
 jobs:
   sonarcloud:
-    uses: TheHiddenCargo/central-pipelines/.github/workflows/sonarcloud-analysis.yml@2b44d8bec39fd69ad67ace3b004811f8e12ddc86
+    uses: TheHiddenCargo/central-pipelines/.github/workflows/sonarcloud-analysis.yml@573efc0e1ace509f31ece2235ebecd7ec2b859a9
     with:
       java-version: '21'
       branch-name: 'main'
