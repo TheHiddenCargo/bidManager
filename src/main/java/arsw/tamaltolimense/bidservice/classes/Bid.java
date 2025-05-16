@@ -86,13 +86,23 @@ public class Bid {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((containerId == null) ? 0 : containerId.hashCode());
+        result = prime * result + amountOffered;
+        result = prime * result + realValue;
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         try{
             Bid newBid = (Bid) o;
             return this.containerId.equals(newBid.containerId)
                     && this.amountOffered == newBid.amountOffered
                     && this.realValue == newBid.realValue;
-        }catch(ClassCastException e){
+        }catch(ClassCastException | NullPointerException e){
             return false;
         }
     }
