@@ -99,6 +99,7 @@ public class Bid {
     public boolean equals(Object o) {
         try{
             Bid newBid = (Bid) o;
+            if(newBid == null) return false;
             return this.containerId.equals(newBid.containerId)
                     && this.amountOffered == newBid.amountOffered
                     && this.realValue == newBid.realValue;
