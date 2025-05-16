@@ -85,15 +85,7 @@ public class Bid {
         this.isOpen = false;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((containerId == null) ? 0 : containerId.hashCode());
-        result = prime * result + amountOffered;
-        result = prime * result + realValue;
-        return result;
-    }
+
 
     @Override
     public boolean equals(Object o) {
