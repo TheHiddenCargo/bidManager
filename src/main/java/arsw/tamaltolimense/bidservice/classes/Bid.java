@@ -96,36 +96,15 @@ public class Bid {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        // Comprobación de identidad
-        if (this == obj) {
-            return true;
-        }
-
-        // Comprobación de nulo
-        if (obj == null) {
+    public boolean equals(Object o) {
+        try{
+            Bid newBid = (Bid) o;
+            return this.containerId.equals(newBid.containerId)
+                    && this.amountOffered == newBid.amountOffered
+                    && this.realValue == newBid.realValue;
+        }catch(ClassCastException e){
             return false;
         }
-
-        // Comprobación de tipo
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        // Casting seguro y comparación de campos
-        Bid other = (Bid) obj;
-
-        // Compara containerId con protección contra nulos
-        if (containerId == null) {
-            if (other.containerId != null) {
-                return false;
-            }
-        } else if (!containerId.equals(other.containerId)) {
-            return false;
-        }
-
-        // Compara los valores primitivos
-        return amountOffered == other.amountOffered && realValue == other.realValue;
     }
 }
 
