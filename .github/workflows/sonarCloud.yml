@@ -15,7 +15,7 @@ jobs:
     with:
       java-version: '21'
       branch-name: 'main'
-      coverage-exclusions: 'src/main/java/arsw/tamaltolimense/bidservice/config/**/*,src/main/java/arsw/tamaltolimense/bidservice/controller/**/*,src/main/java/arsw/tamaltolimense/bidservice/BidServiceApplication*'
+      coverage-exclusions: 'src/main/java/arsw/tamaltolimense/bidservice/config/**/*,src/main/java/arsw/tamaltolimense/bidservice/controller/**/*'
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
