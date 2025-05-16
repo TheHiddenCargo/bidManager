@@ -31,8 +31,9 @@ class BidServiceImplTest{
             bidService.startBet("1",500,2000);
             assertNotNull(bidService.getBidByContainer("1"));
             assertTrue(bidService.getBidByContainer("1").isOpen());
-            assertEquals(new Bid("1",500,2000),
-                    bidService.getBidByContainer("1"));
+            assertEquals("1",bidService.getBidByContainer("1").getContainerId());
+            assertEquals(500,bidService.getBidByContainer("1").getAmountOffered());
+            assertEquals(2000,bidService.getBidByContainer("1").getRealValue());
         } catch (BidException e) {
             fail(e.getMessage());
         }

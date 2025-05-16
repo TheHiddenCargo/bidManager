@@ -87,17 +87,7 @@ public class Bid {
 
 
 
-    @Override
-    public boolean equals(Object o) {
-        try{
-            Bid newBid = (Bid) o;
-            return this.containerId.equals(newBid.containerId)
-                    && this.amountOffered == newBid.amountOffered
-                    && this.realValue == newBid.realValue;
-        }catch(ClassCastException e){
-            return false;
-        }
-    }
+
 }
 
 
