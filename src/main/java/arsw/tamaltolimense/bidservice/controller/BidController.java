@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
@@ -74,8 +75,8 @@ public class BidController {
         } catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Error inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+           logger.log(Level.SEVERE, e.getMessage(), e);
+           return new ResponseEntity<>("Error inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -122,7 +123,7 @@ public class BidController {
         } catch (BidException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
             return new ResponseEntity<>("Error inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
