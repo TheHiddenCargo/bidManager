@@ -38,8 +38,7 @@ public class BidController {
                 allParams.putAll(requestBody);
             }
 
-            // Log para depuración
-            logger.info("Parámetros recibidos en /start: " + allParams);
+
 
             String container = allParams.get("container");
             if (container == null) {
@@ -93,8 +92,7 @@ public class BidController {
                 allParams.putAll(requestBody);
             }
 
-            // Log para depuración
-            logger.info("Parámetros recibidos en /offer: " + allParams);
+
 
             String container = allParams.get("container");
             if (container == null) {
